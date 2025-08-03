@@ -1,45 +1,61 @@
-const axios = require('axios');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+require('dotenv').config();
 
-async function sendAudioToGemini(audioBase64) {
-  const apiKey = process.env.GEMINI_API_KEY;
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+const apiKey = process.env.GEMINI_API_KEY;
+const genAI = new GoogleGenerativeAI(apiKey);
 
-  const payload = {
-    contents: [
-      {
-        role: 'user',
-        parts: [
+const model = genAI.getGenerativeModel({
+  model: 'gemini-2.0-flash',
+  generationConfig: {
+    responseModalities: ['TEXT'],
+  },
+});
+
+async function processAudio(ws) {
+  ws.on('message', async (data) => {
+    if (!Buffer.isBuffer(data)) return;
+
+    try {
+      const audioBase64 = data.toString('base64');
+
+      console.log('🎙️ Received audio. Sending to Gemini...');
+
+      const response = await model.generateContent({
+        contents: [
           {
-            text: "Reply in short and polite manner. Don't give large explanation"
-          }
-        ]
-      },
-      {
-        role: 'user',
-        parts: [
-          {
-            inline_data: {
-              mime_type: 'audio/wav',
-              data: audioBase64
-            }
-          }
-        ]
+            role: 'user',
+            parts: [
+              { text: 'You know everything and give answer in friendly tone' },
+              {
+                inlineData: {
+                  mimeType: 'audio/wav',
+                  data: audioBase64,
+                },
+              },
+            ],
+          },
+        ],
+      });
+
+      const text = response.response?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+      if (text) {
+        console.log('🧠 Gemini response:', text);
+        ws.send(JSON.stringify({ text }));
+      } else {
+        console.warn('⚠️ No text returned from Gemini.');
+        ws.send(JSON.stringify({ text: "Sorry, I didn't catch that." }));
       }
-    ]
-  };
 
-  const headers = {
-    'Content-Type': 'application/json'
-  };
-  try {
-    const response = await axios.post(url, payload, { headers });
+    } catch (error) {
+      console.error('❌ Error processing audio:', error.message);
+      ws.send(JSON.stringify({ error: 'Gemini error: ' + error.message }));
+    }
+  });
 
-    const text = response.data?.candidates?.[0]?.content?.parts?.[0]?.text;
-    return text;
-  } catch (error) {
-    console.error('Error sending audio to Gemini:', error.message);
-    throw error;
-  } 
+  ws.on('close', () => {
+    console.log('🔌 WebSocket closed');
+  });
 }
 
-module.exports = { sendAudioToGemini };
+module.exports = { processAudio };
