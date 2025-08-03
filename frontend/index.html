@@ -1,18 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Revolt Motors Voice Assistant</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <div class="container">
-    <h1>Revolt Motors Voice Assistant</h1>
-    <button id="startBtn">Start Talking</button>
-    <button id="stopBtn" disabled>Stop</button>
-    <div id="status">Status: Not connected</div>
+  <div class="background-animation">
+    <div class="circle violet"></div>
+    <div class="circle"></div>
+    <div class="circle violet"></div>
   </div>
+
+  <div class="container">
+    <header>
+      <div class="logo">
+        <i class="fas fa-robot"></i>
+        <h1><span>Voice Assistant</span></h1>
+      </div>
+      <p class="tagline">Your intelligent voice-controlled assistant</p>
+    </header>
+
+    <main>
+      <div class="assistant-container">
+        <div class="assistant-avatar">
+          <i class="fas fa-microphone-alt"></i>
+          <div class="pulse-ring"></div>
+        </div>
+
+        <div class="controls">
+          <button id="startBtn" class="btn start-btn">
+            <i class="fas fa-microphone"></i>
+            <span>Start Talking</span>
+          </button>
+          <button id="stopBtn" class="btn stop-btn" disabled>
+            <i class="fas fa-stop"></i>
+            <span>Stop</span>
+          </button>
+        </div>
+
+        <div id="status" class="status">
+          <i class="fas fa-circle"></i>
+          <span>Status: Not connected</span>
+        </div>
+      </div>
+    </main>
+  </div>
+
   <script src="client.js"></script>
 </body>
 </html>

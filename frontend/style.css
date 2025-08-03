@@ -1,14 +1,182 @@
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #0f0f1b;
+  color: #fff;
+  overflow: hidden;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Background Animation */
+.background-animation .circle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  animation: pulse 10s infinite;
+}
+
+.background-animation .circle.violet {
+  background: rgba(165, 85, 255, 0.1);
+}
+
+.background-animation .circle:nth-child(1) {
+  width: 300px;
+  height: 300px;
+  top: 5%;
+  left: 5%;
+}
+
+.background-animation .circle:nth-child(2) {
+  width: 500px;
+  height: 500px;
+  top: 60%;
+  right: 10%;
+}
+
+.background-animation .circle:nth-child(3) {
+  width: 200px;
+  height: 200px;
+  bottom: 10%;
+  left: 40%;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* Container */
 .container {
+  z-index: 2;
+  width: 90%;
+  max-width: 500px;
+  padding: 30px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(165, 85, 255, 0.25);
+}
+
+/* Header */
+header {
   text-align: center;
-  padding: 20px;
-  font-family: Arial, sans-serif;
+  margin-bottom: 30px;
 }
-button {
-  padding: 10px 20px;
-  margin: 10px;
-  font-size: 16px;
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
-#status {
-  margin-top: 20px;
-  font-size: 18px;
+
+.logo i {
+  font-size: 2rem;
+  color: #a555ff;
+}
+
+.logo h1 span {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #a555ff;
+}
+
+.tagline {
+  color: #ccc;
+  font-size: 0.95rem;
+  margin-top: 5px;
+}
+
+/* Assistant Container */
+.assistant-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+/* Avatar */
+.assistant-avatar {
+  position: relative;
+  font-size: 3rem;
+  color: #a555ff;
+}
+
+.pulse-ring {
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  width: 80px;
+  height: 80px;
+  border: 2px solid #a555ff;
+  border-radius: 50%;
+  animation: ringPulse 1.5s infinite ease-out;
+  z-index: -1;
+}
+
+@keyframes ringPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Buttons */
+.controls {
+  display: flex;
+  gap: 20px;
+}
+
+.btn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: 0.3s;
+}
+
+.start-btn {
+  background: #a555ff;
+  color: #fff;
+}
+
+.stop-btn {
+  background: #444;
+  color: #fff;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(165, 85, 255, 0.4);
+}
+
+/* Status */
+.status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: #aaa;
+}
+.status i {
+  font-size: 0.6rem;
+  color: red;
 }
